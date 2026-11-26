@@ -22,7 +22,7 @@ Built as part of the GMI Cloud Clouders ambassador programme. Tag: [@gmi_cloud](
 
 Full per-task and per-run tables: `results/latest/RESULTS.md`; raw data: `results/latest/results.csv`.
 
-One thing the dry run already shows, because it measures the agents' real requests: **Droid's first request is roughly 10x larger than mini-SWE-agent's** (about 10.7k vs 1.2k estimated tokens, mostly Droid's system prompt and 11 tool schemas against mini's single `bash` tool). Whether Droid gets that back by needing fewer steps is what the real run answers.
+One thing the dry run already shows, because it measures the agents' real requests: **Droid's first request is roughly 10x larger than mini-SWE-agent's** (about 10.7k vs 1.1k tokens, estimated as request characters / 4, mostly Droid's system prompt and 11 tool schemas against mini's single `bash` tool). Whether Droid gets that back by needing fewer steps is what the real run answers.
 
 ## Methodology
 
