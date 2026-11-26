@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import statistics
 import sys
 from pathlib import Path
 
@@ -17,36 +18,52 @@ COLORS = {"mini": "#4C72B0", "droid": "#DD8452"}
 def main(out: Path) -> Path:
     s = json.loads((out / "summary.json").read_text())
     cfg = json.loads((out / "run_config.json").read_text())
-    ag = s["agg"]
+    rows = [json.loads(x) for x in (out / "runs.jsonl").read_text().splitlines() if x.strip()]
+    latest = {(r["instance_id"], r["agent"]): r for r in rows}
     agents = ["mini", "droid"]
+    st = {}
+    for a in agents:
+        rs = [r for r in latest.values() if r["agent"] == a]
+        tok = [r["prompt_tokens"] + r["completion_tokens"] for r in rs]
+        cost = [r["cost_usd"] for r in rs]
+        k = sum(r["resolved"] for r in rs)
+        st[a] = {"n": len(rs), "k": k, "ci": s["agg"][a]["ci"],
+                 "tok_mean": statistics.mean(tok), "tok_med": statistics.median(tok), "tok_tot": sum(tok),
+                 "cost_mean": statistics.mean(cost), "cost_tot": sum(cost), "cps": sum(cost) / k,
+                 "wall": statistics.median(r["wall_s"] for r in rs), "steps": statistics.median(r["steps"] for r in rs)}
     panels = [
-        ("Resolved (95% CI)", lambda a: 100 * ag[a]["k"] / ag[a]["n"], lambda a: f"{ag[a]['k']}/{ag[a]['n']}"),
-        ("Median wall time / instance (s)", lambda a: ag[a]["wall"], lambda a: f"{ag[a]['wall']:.0f}s"),
-        ("Median steps (LLM calls)", lambda a: ag[a]["steps"], lambda a: f"{ag[a]['steps']:.0f}"),
-        ("Total tokens (in+out)", lambda a: ag[a]["tok"], lambda a: f"{ag[a]['tok']/1e6:.1f}M"),
-        ("Total cost (USD)", lambda a: ag[a]["cost"], lambda a: f"${ag[a]['cost']:.2f}"),
+        ("Resolved, % (95% CI)", lambda a: 100 * st[a]["k"] / st[a]["n"], lambda a: f"{st[a]['k']}/{st[a]['n']}", None),
+        ("Tokens per task (mean)", lambda a: st[a]["tok_mean"],
+         lambda a: f"{st[a]['tok_mean']/1e3:.0f}k", lambda a: f"median {st[a]['tok_med']/1e3:.0f}k\ntotal {st[a]['tok_tot']/1e6:.1f}M"),
+        ("Cost per task, USD (mean)", lambda a: st[a]["cost_mean"],
+         lambda a: f"${st[a]['cost_mean']:.4f}", lambda a: f"total ${st[a]['cost_tot']:.2f}\nper resolved ${st[a]['cps']:.4f}"),
+        ("Median wall time per task (s)", lambda a: st[a]["wall"], lambda a: f"{st[a]['wall']:.0f}s", None),
+        ("Median steps (LLM calls)", lambda a: st[a]["steps"], lambda a: f"{st[a]['steps']:.0f}", None),
     ]
-    fig, axes = plt.subplots(1, 5, figsize=(17, 4))
-    for j, (ax, (title, val, lab)) in enumerate(zip(axes, panels)):
+    fig, axes = plt.subplots(1, 5, figsize=(18, 4.4))
+    for j, (ax, (title, val, lab, sub)) in enumerate(zip(axes, panels)):
         vals = [val(a) for a in agents]
         bars = ax.bar([LABEL[a] for a in agents], vals, color=[COLORS[a] for a in agents])
         if j == 0:
-            lo = [vals[i] - 100 * ag[a]["ci"][0] for i, a in enumerate(agents)]
-            hi = [100 * ag[a]["ci"][1] - vals[i] for i, a in enumerate(agents)]
+            lo = [vals[i] - 100 * st[a]["ci"][0] for i, a in enumerate(agents)]
+            hi = [100 * st[a]["ci"][1] - vals[i] for i, a in enumerate(agents)]
             ax.errorbar(range(2), vals, yerr=[lo, hi], fmt="none", ecolor="black", capsize=6)
             ax.set_ylim(0, 110)
         else:
-            ax.set_ylim(0, max(vals) * 1.22)
+            ax.set_ylim(0, max(vals) * 1.35)
             ax.set_yticks([])
             ax.spines["left"].set_visible(False)
         for b, a in zip(bars, agents):
-            ax.annotate(lab(a), (b.get_x() + b.get_width() / 2, b.get_height() / 2), ha="center", va="center",
-                        fontsize=10, color="white", fontweight="bold")
+            ax.annotate(lab(a), (b.get_x() + b.get_width() / 2, b.get_height() * 0.5), ha="center", va="center",
+                        fontsize=11, color="white", fontweight="bold")
+            if sub:
+                ax.annotate(sub(a), (b.get_x() + b.get_width() / 2, b.get_height()), ha="center", va="bottom",
+                            fontsize=8.5, xytext=(0, 3), textcoords="offset points")
         ax.set_title(title, fontsize=11)
         ax.spines[["top", "right"]].set_visible(False)
         ax.tick_params(axis="x", labelsize=9)
-    fig.suptitle(f"SWE-bench Verified ({s['n']} random instances): mini-SWE-agent vs Factory Droid, "
-                 f"both on {cfg['display_name']} via GMI Cloud", fontsize=12)
+    fig.suptitle(f"SWE-bench Verified, {s['n']} random tasks: mini-SWE-agent vs Factory Droid, both on "
+                 f"{cfg['display_name']} via GMI Cloud  (McNemar p = {s['mcnemar_p']:.3f})", fontsize=12)
     fig.tight_layout()
     path = out / "chart.png"
     fig.savefig(path, dpi=150)

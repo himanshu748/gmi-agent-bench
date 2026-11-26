@@ -12,10 +12,12 @@ Built as part of the GMI Cloud Clouders ambassador programme. Tag: [@gmi_cloud](
 
 ![SWE-bench chart](results/swebench/main/chart.png)
 
-| Agent | Resolved | 95% CI | Median time / instance | Median steps | Median tokens (in / out) | Total tokens | Total cost | Cost per resolved |
+| Agent | Resolved (95% CI) | Total tokens | Tokens per task (median / mean) | Total cost | Cost per task (mean) | Cost per resolved task | Median time per task | Median steps |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| mini-SWE-agent | **95/100** | 89%–98% | 285 s | 30 | 439k / 11.4k | 79.7M | $1.65 | $0.0174 |
-| Factory Droid | 88/100 | 80%–93% | **132 s** | **18** | **277k / 4.8k** | **47.1M** | **$0.98** | **$0.0111** |
+| mini-SWE-agent | **95/100** (89–98%) | 79.7M | 448k / 797k | $1.65 | $0.0165 | $0.0174 | 285 s | 30 |
+| Factory Droid | 88/100 (80–93%) | **47.1M** | **284k / 471k** | **$0.98** | **$0.0098** | **$0.0111** | **132 s** | **18** |
+
+Tokens are input + output as metered by the relay (96–97% of input tokens were prompt-cache hits). Cost uses GMI's GLM-5.3 Flash price: $0.075 input / $0.015 cached / $0.25 output per 1M tokens.
 
 Paired on the same 100 instances: both resolved 87, **only mini-SWE-agent 8**, only Droid 1, neither 4. Exact McNemar test: **p = 0.039**.
 
