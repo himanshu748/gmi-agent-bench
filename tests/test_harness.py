@@ -92,3 +92,13 @@ def test_droid_end_to_end_dry_run(tmp_path):
     assert r.returncode == 0, r.stderr
     row = json.loads((tmp_path / "runs.jsonl").read_text().splitlines()[0])
     assert row["resolved"] and row["steps"] == 2
+
+
+def test_pycache_is_not_a_test_edit(tmp_path):
+    task = load_tasks(["lru-cache"])[0]
+    work = tmp_path / "w"
+    prepare_workdir(task, work)
+    (work / "tests" / "__pycache__").mkdir()
+    (work / "tests" / "__pycache__" / "x.pyc").write_bytes(b"\x00")
+    d = diff_stats(work)
+    assert not d["edited_tests"] and d["files_changed"] == 0

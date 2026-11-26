@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "mini-SWE-agent vs Factory Droid on the same GMI Cloud model: score, time, steps, tokens, cost"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-dependencies = ["mini-swe-agent==2.4.6", "pytest>=8", "pyyaml>=6"]
+dependencies = ["mini-swe-agent==2.4.6", "pytest>=8", "pyyaml>=6", "matplotlib>=3.8"]
 
 [tool.setuptools]
 packages = ["bench"]

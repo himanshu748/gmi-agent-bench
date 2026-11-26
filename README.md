@@ -10,19 +10,30 @@ Built as part of the GMI Cloud Clouders ambassador programme. Tag: [@gmi_cloud](
 
 ## Results
 
-> **Real run pending.** The numbers below this line will be produced by `make run` (see [Reproduce](#reproduce)).
-> The table that is in `results/dry-run/` is a pipeline test with a scripted mock LLM, not a benchmark result.
+Real run on 2026-11-26: 6 tasks x 2 runs per agent, `zai-org/GLM-5.3-Flash` on GMI Cloud for both.
+
+![results chart](results/latest/chart.png)
 
 <!-- RESULTS:START -->
-| Agent | Resolved | Tests passed | Median wall time (s) | Median steps | Total tokens | Total cost (USD) |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| mini-SWE-agent | – | – | – | – | – | – |
-| Factory Droid | – | – | – | – | – | – |
+| Agent | Resolved | Tests passed | Median wall time (s) | Median steps | Total tokens (in+out) | Cached share of input | Total cost (USD) | Cost per solve (USD) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| mini-SWE-agent | **12/12** | **156/156** | 61.2 | 10 | **578k** | 86% | 0.0247 | 0.0021 |
+| Factory Droid | 11/12 | 155/156 | **27.1** | **7** | 966k | 95% | **0.0227** | 0.0021 |
 <!-- RESULTS:END -->
 
-Full per-task and per-run tables: `results/latest/RESULTS.md`; raw data: `results/latest/results.csv`.
+**What it shows**
 
-One thing the dry run already shows, because it measures the agents' real requests: **Droid's first request is roughly 10x larger than mini-SWE-agent's** (about 10.7k vs 1.1k tokens, estimated as request characters / 4, mostly Droid's system prompt and 11 tool schemas against mini's single `bash` tool). Whether Droid gets that back by needing fewer steps is what the real run answers.
+- **Score: basically a tie, mini edges it.** mini-SWE-agent solved 12/12 runs. Droid solved 11/12; its one miss (`deep-merge`, run 2) returned a dict that still shared a nested list with the input, which the issue forbids. One run on six tasks is within noise.
+- **Speed and steps: Droid wins clearly.** Median 27 s vs 61 s per task (2.3x faster), 7 vs 10 model calls, and about 60% fewer output tokens. Droid batches work into fewer, more targeted tool calls (`Edit`, `Execute`, `Read`) where mini works through one bash command per step.
+- **Tokens: mini wins.** Droid used 1.7x the tokens (966k vs 578k). Every Droid request carries about 10k tokens of system prompt and 11 tool schemas, against mini's single `bash` tool.
+- **Cost: a wash.** 95% of Droid's input tokens were cache hits ($0.015/M against $0.075/M uncached on GMI), so its larger prompts cost about the same: $0.0227 vs $0.0247 in total and the same cost per solve. Without prompt caching, the same tokens would have cost $0.077 for Droid vs $0.052 for mini, so Droid would be about 1.5x more expensive.
+- **The whole benchmark cost under 5 cents** on GMI Cloud (GLM-5.3 Flash promo pricing).
+
+Full per-task and per-run tables: [`results/latest/RESULTS.md`](results/latest/RESULTS.md); raw data: [`results/latest/results.csv`](results/latest/results.csv); every run's logs, request log, trajectory and diff are under `results/latest/raw/`.
+
+Run notes:
+- The first version of the `deep-merge` issue listed its bugs in a way that read as if list *concatenation* was wanted; both agents concatenated in run 1 and failed one test. The wording was fixed (`tasks/deep-merge/issue.md`) and run 1 was rerun for **both** agents; run 2 already used the fixed text. The superseded run-1 logs are kept in `results/latest/superseded/`.
+- No API errors, timeouts or test edits in any scored run. Steps and tokens measured by the proxy matched each agent's own report exactly.
 
 ## Methodology
 
@@ -62,7 +73,7 @@ Why not SWE-bench? Those instances need per-repo Docker images and a much bigger
 - **Wall time**: seconds for the agent process only.
 - **Steps**: successful chat-completions calls seen by the proxy.
 - **Tokens**: prompt / cached / completion tokens from the provider's `usage` field.
-- **Cost (USD)**: `uncached_in x input price + cached_in x cached price + out x output price`, prices in `bench.yaml` (GMI list price for GLM-5.3 Flash read 2026-11-26: $0.075 in / $0.015 cached / $0.25 out per 1M tokens; verify on the GMI console before publishing).
+- **Cost (USD)**: `uncached_in x input price + cached_in x cached price + out x output price`, prices in `bench.yaml` (GLM-5.3 Flash on GMI, verified 2026-11-26 from GMI's public model catalog: $0.075 in / $0.015 cached / $0.25 out per 1M tokens, a 50% promo off $0.15 / $0.03 / $0.50).
 
 ### Agent configuration
 
@@ -87,7 +98,7 @@ make run        # the real benchmark -> results/latest/{results.csv,RESULTS.md}
 
 Options: `python -m bench run --agents mini --tasks lru-cache,csv-split --runs 3`. To try another GMI model, change `model:` in `bench.yaml` (id from the [GMI text catalog](https://docs.gmicloud.ai/model-quickstarts/text/overview) plus its prices).
 
-Expected cost of a full run (6 tasks x 2 agents x 2 runs) on GLM-5.3 Flash: well under $1.
+A full run (6 tasks x 2 agents x 2 runs) on GLM-5.3 Flash took about 21 minutes and cost about $0.05.
 
 ## Layout
 
@@ -112,7 +123,8 @@ tests/                harness tests
 - Six small tasks is a smoke-scale benchmark, not a leaderboard. Treat a 1-task difference as noise; run `--runs 3+` before drawing conclusions.
 - One model. Agents can rank differently on other models.
 - Droid makes any auxiliary model calls it wants (they are counted, since they cost money); mini makes exactly one call per step.
-- Prices change; the cost column is only as current as `bench.yaml`.
+- Prices change; the cost column is only as current as `bench.yaml` (GLM-5.3 Flash was on a 50% promo when this ran).
+- mini's wall time includes about 3 s of Python/litellm start-up per run.
 
 ## License
 

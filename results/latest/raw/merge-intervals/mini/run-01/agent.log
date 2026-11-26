@@ -1,0 +1,57 @@
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 59}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 46}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 453}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 57}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 16}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 74}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 525}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 803}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 297}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+

@@ -1,0 +1,23 @@
+...F....                                                                 [100%]
+=================================== FAILURES ===================================
+_______________________________ test_no_mutation _______________________________
+
+    def test_no_mutation():
+        a = {"db": {"host": "a"}, "l": [1]}
+        b = {"db": {"port": 2}, "m": {"k": 1}}
+        out = deep_merge(a, b)
+        assert a == {"db": {"host": "a"}, "l": [1]}
+        assert b == {"db": {"port": 2}, "m": {"k": 1}}
+        out["db"]["host"] = "zzz"; out["l"].append(2); out["m"]["k"] = 9
+>       assert a["db"]["host"] == "a" and a["l"] == [1] and b["m"]["k"] == 1
+E       AssertionError: assert ('a' == 'a'
+E         
+E           a and [1, 2] == [1]
+E         
+E         Left contains one more item: 2
+E         Use -v to get more diff)
+
+_hidden_tests/test_hidden_merge.py:21: AssertionError
+=========================== short test summary info ============================
+FAILED _hidden_tests/test_hidden_merge.py::test_no_mutation - AssertionError:...
+1 failed, 7 passed in 0.02s

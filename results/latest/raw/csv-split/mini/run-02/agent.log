@@ -1,0 +1,72 @@
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 60}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 25}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 679}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 46}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 455}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 226}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 602}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 514}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 385}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 390}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 115}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 444}], input_type=list])
+  return self.__pydantic_serializer__.to_python(
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+

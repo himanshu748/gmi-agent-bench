@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="0.028" timestamp="2026-11-26T18:17:18.439645+05:30" hostname="grok-bot-vm-78339997"><testcase classname="tests.test_merge" name="test_flat" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_nested" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_deep" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_no_mutation" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_lists_replaced" time="0.000"><failure message="AssertionError: assert {'l': [1, 2, 3]} == {'l': [3]}&#10;  &#10;  Differing items:&#10;  {'l': [1, 2, 3]} != {'l': [3]}&#10;  Use -v to get more diff">def test_lists_replaced():
+&gt;       assert deep_merge({"l": [1, 2]}, {"l": [3]}) == {"l": [3]}
+E       AssertionError: assert {'l': [1, 2, 3]} == {'l': [3]}
+E         
+E         Differing items:
+E         {'l': [1, 2, 3]} != {'l': [3]}
+E         Use -v to get more diff
+
+_hidden_tests/test_hidden_merge.py:25: AssertionError</failure></testcase><testcase classname="_hidden_tests.test_hidden_merge" name="test_type_conflict" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_none_deletes" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_flat" time="0.000" /></testsuite></testsuites>

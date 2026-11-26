@@ -1,0 +1,1 @@
+droid exec --settings /workspace/gmi-agent-bench/results/latest/raw/merge-intervals/droid/run-02/home/.factory/settings.json --model custom:GLM-5.3-Flash-0 --auto medium --output-format json --cwd /workspace/gmi-agent-bench/results/latest/work/merge-intervals/droid/run-02 --file /workspace/gmi-agent-bench/results/latest/raw/merge-intervals/droid/run-02/prompt.md

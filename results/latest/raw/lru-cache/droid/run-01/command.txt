@@ -1,0 +1,1 @@
+droid exec --settings /workspace/gmi-agent-bench/results/latest/raw/lru-cache/droid/run-01/home/.factory/settings.json --model custom:GLM-5.3-Flash-0 --auto medium --output-format json --cwd /workspace/gmi-agent-bench/results/latest/work/lru-cache/droid/run-01 --file /workspace/gmi-agent-bench/results/latest/raw/lru-cache/droid/run-01/prompt.md

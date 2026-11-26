@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="0.027" timestamp="2026-11-26T18:27:25.455543+05:30" hostname="grok-bot-vm-78339997"><testcase classname="tests.test_merge" name="test_flat" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_nested" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_deep" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_no_mutation" time="0.000"><failure message="AssertionError: assert ('a' == 'a'&#10;  &#10;    a and [1, 2] == [1]&#10;  &#10;  Left contains one more item: 2&#10;  Use -v to get more diff)">def test_no_mutation():
+        a = {"db": {"host": "a"}, "l": [1]}
+        b = {"db": {"port": 2}, "m": {"k": 1}}
+        out = deep_merge(a, b)
+        assert a == {"db": {"host": "a"}, "l": [1]}
+        assert b == {"db": {"port": 2}, "m": {"k": 1}}
+        out["db"]["host"] = "zzz"; out["l"].append(2); out["m"]["k"] = 9
+&gt;       assert a["db"]["host"] == "a" and a["l"] == [1] and b["m"]["k"] == 1
+E       AssertionError: assert ('a' == 'a'
+E         
+E           a and [1, 2] == [1]
+E         
+E         Left contains one more item: 2
+E         Use -v to get more diff)
+
+_hidden_tests/test_hidden_merge.py:21: AssertionError</failure></testcase><testcase classname="_hidden_tests.test_hidden_merge" name="test_lists_replaced" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_type_conflict" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_none_deletes" time="0.000" /><testcase classname="_hidden_tests.test_hidden_merge" name="test_flat" time="0.000" /></testsuite></testsuites>

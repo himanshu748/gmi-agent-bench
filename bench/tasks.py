@@ -64,6 +64,11 @@ def prepare_workdir(task: Task, work: Path) -> None:
     git(work, "-c", "user.name=bench", "-c", "user.email=bench@localhost", "commit", "-qm", "baseline")
 
 
+def _is_noise(path: str) -> bool:
+    """Bytecode and tool caches are not agent edits."""
+    return "__pycache__/" in path or path.endswith(".pyc") or path.startswith(".pytest_cache/")
+
+
 def diff_stats(work: Path) -> dict:
     git(work, "add", "-A")
     out = git(work, "diff", "--cached", "--numstat", "HEAD")
@@ -71,6 +76,8 @@ def diff_stats(work: Path) -> dict:
     files, touched_tests = [], False
     for line in out.splitlines():
         a, r, f = line.split("\t", 2)
+        if _is_noise(f):
+            continue
         add += int(a) if a.isdigit() else 0
         rem += int(r) if r.isdigit() else 0
         files.append(f)

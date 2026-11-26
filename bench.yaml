@@ -10,9 +10,9 @@ model:
   id: zai-org/GLM-5.3-Flash
   display_name: GLM-5.3 Flash
   max_output_tokens: 16384
-  # USD per 1M tokens. Read 2026-11-26 from public GMI price listings
-  # (models.litellm.ai/providers/gmi, appndo.com/models/providers/gmi).
-  # Confirm on console.gmicloud.ai before publishing a cost column.
+  # USD per 1M tokens. Verified 2026-11-26 against GMI's own public model catalog
+  # (console.gmicloud.ai/api/v1/ie/artifact/get_public_artifacts, model_price.tiers[0]).
+  # These are a 50% promo price; list price is $0.15 in / $0.03 cached / $0.50 out.
   input_usd_per_million: 0.075
   cached_input_usd_per_million: 0.015
   output_usd_per_million: 0.25
