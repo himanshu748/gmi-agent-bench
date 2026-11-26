@@ -6,3 +6,8 @@ results/*/work/
 results/*/raw/**/home/
 .pytest_cache/
 results/**/home/
+results/swebench/*/eval/logs/**/*.log
+results/swebench/*/eval/logs/**/test_output.txt
+results/swebench/*/eval/*.json
+results/swebench/pilot-flash/raw/
+results/swebench/pilot-flash/eval/

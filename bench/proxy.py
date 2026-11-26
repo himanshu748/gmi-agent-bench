@@ -16,6 +16,10 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+# Per-socket-read timeout to the upstream. GMI occasionally stalls a request
+# indefinitely; failing fast (502) lets the agent's own retry logic take over.
+UPSTREAM_TIMEOUT = float(__import__("os").environ.get("BENCH_UPSTREAM_TIMEOUT", "180"))
+
 HOP = {"host", "content-length", "connection", "accept-encoding", "transfer-encoding"}
 
 
@@ -32,7 +36,8 @@ def _usage_fields(usage: dict | None) -> dict:
 
 
 class MeteringProxy:
-    def __init__(self, upstream: str, log_path: Path, api_key: str | None = None):
+    def __init__(self, upstream: str, log_path: Path, api_key: str | None = None, guard=None):
+        self.guard = guard  # optional: .allowed() -> bool, .add(row) after each call (budget cap)
         self.upstream = upstream.rstrip("/")
         self.log_path = Path(log_path)
         self.api_key = api_key  # injected upstream so agents never need the real key
@@ -47,6 +52,8 @@ class MeteringProxy:
     def _record(self, row: dict) -> None:
         with self._lock, self.log_path.open("a") as fh:
             fh.write(json.dumps(row) + "\n")
+        if self.guard is not None:
+            self.guard.add(row)
 
     def start(self) -> "MeteringProxy":
         proxy = self
@@ -74,12 +81,21 @@ class MeteringProxy:
                         req_json = json.loads(body)
                     except ValueError:
                         pass
+                if proxy.guard is not None and path.endswith("/chat/completions") and not proxy.guard.allowed():
+                    msg = json.dumps({"error": {"message": "gmi-agent-bench budget cap reached"}}).encode()
+                    self.send_response(429)
+                    self.send_header("content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(msg)
+                    proxy._record({"ts": time.time(), "path": path, "status": 429, "latency_s": 0,
+                                   "error": "budget cap", **_usage_fields(None)})
+                    return
                 t0 = time.time()
                 row = {"ts": t0, "path": path, "model": req_json.get("model"),
                        "stream": bool(req_json.get("stream")), "n_messages": len(req_json.get("messages") or [])}
                 try:
                     resp = urllib.request.urlopen(
-                        urllib.request.Request(url, data=body, headers=headers, method=method), timeout=600)
+                        urllib.request.Request(url, data=body, headers=headers, method=method), timeout=UPSTREAM_TIMEOUT)
                     status = resp.status
                 except urllib.error.HTTPError as e:
                     resp, status = e, e.code

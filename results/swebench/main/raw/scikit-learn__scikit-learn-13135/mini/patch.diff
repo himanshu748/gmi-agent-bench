@@ -1,0 +1,23 @@
+diff --git a/sklearn/preprocessing/_discretization.py b/sklearn/preprocessing/_discretization.py
+index dd969c12b..27fec3a08 100644
+--- a/sklearn/preprocessing/_discretization.py
++++ b/sklearn/preprocessing/_discretization.py
+@@ -172,8 +172,18 @@ class KBinsDiscretizer(BaseEstimator, TransformerMixin):
+                 # 1D k-means procedure
+                 km = KMeans(n_clusters=n_bins[jj], init=init, n_init=1)
+                 centers = km.fit(column[:, None]).cluster_centers_[:, 0]
++                # KMeans could return centers that are not sorted, hence bin
++                # edges are not sorted either. Sort the centers so that the
++                # bin edges are monotonically increasing, as required by
++                # np.digitize in ``transform``.
++                centers.sort()
+                 bin_edges[jj] = (centers[1:] + centers[:-1]) * 0.5
+                 bin_edges[jj] = np.r_[col_min, bin_edges[jj], col_max]
++                # Numerical imprecision can still lead to bin edges that are
++                # not monotonically increasing, e.g. when two cluster centers
++                # are almost identical. Enforce monotonically increasing bin
++                # edges.
++                bin_edges[jj] = np.maximum.accumulate(bin_edges[jj])
+ 
+         self.bin_edges_ = bin_edges
+         self.n_bins_ = n_bins

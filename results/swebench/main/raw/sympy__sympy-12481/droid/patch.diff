@@ -1,0 +1,28 @@
+diff --git a/sympy/combinatorics/permutations.py b/sympy/combinatorics/permutations.py
+index 136ed5a47..474781448 100755
+--- a/sympy/combinatorics/permutations.py
++++ b/sympy/combinatorics/permutations.py
+@@ -802,7 +802,10 @@ def __new__(cls, *args, **kwargs):
+         """
+         Constructor for the Permutation object from a list or a
+         list of lists in which all elements of the permutation may
+-        appear only once.
++        appear only once. If the cycles are entered in cyclic form,
++        however, they need not be disjoint: they are applied in
++        left-to-right order and the resulting permutation is
++        returned.
+ 
+         Examples
+         ========
+@@ -897,8 +900,9 @@ def __new__(cls, *args, **kwargs):
+         temp = flatten(args)
+         if has_dups(temp):
+             if is_cycle:
+-                raise ValueError('there were repeated elements; to resolve '
+-                'cycles use Cycle%s.' % ''.join([str(tuple(c)) for c in args]))
++                # Non-disjoint cycles are allowed; they are applied in
++                # left-to-right order below so duplicates are expected.
++                pass
+             else:
+                 raise ValueError('there were repeated elements.')
+         temp = set(temp)

@@ -1,0 +1,57 @@
+<pr_description>
+Consider the following PR description:
+autodoc: empty __all__ attribute is ignored
+**Describe the bug**
+autodoc: empty `__all__` attribute is ignored
+
+**To Reproduce**
+```
+# example.py
+__all__ = []
+
+
+def foo():
+    "docstring"
+
+
+def bar():
+    "docstring"
+
+
+def baz():
+    "docstring"
+```
+```
+# index.rst
+.. automodule:: example
+   :members:
+```
+
+All foo, bar, and baz are shown.
+
+**Expected behavior**
+No entries should be shown because `__all__` is empty.
+
+**Your project**
+No
+
+**Screenshots**
+No
+
+**Environment info**
+- OS: Mac
+- Python version: 3.9.1
+- Sphinx version: HEAD of 3.x
+- Sphinx extensions: sphinx.ext.autodoc
+- Extra tools: No
+
+**Additional context**
+No
+
+</pr_description>
+
+Your task is to make changes to non-test files in /testbed (the current directory) so that the
+issue in the PR description is resolved, in a way that is general and consistent with the codebase.
+Do not modify tests or configuration files (pyproject.toml, setup.cfg, etc.). Do not commit.
+The environment is already set up (use `python`; the testbed environment is active).
+When you are done, stop.

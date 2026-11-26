@@ -1,0 +1,15 @@
+diff --git a/django/contrib/staticfiles/storage.py b/django/contrib/staticfiles/storage.py
+index f957a667b2..58d7d518d4 100644
+--- a/django/contrib/staticfiles/storage.py
++++ b/django/contrib/staticfiles/storage.py
+@@ -402,6 +402,10 @@ class ManifestFilesMixin(HashedFilesMixin):
+ 
+     def __init__(self, *args, **kwargs):
+         super().__init__(*args, **kwargs)
++        if not self.max_post_process_passes:
++            raise ImproperlyConfigured(
++                "max_post_process_passes must not be zero."
++            )
+         self.hashed_files = self.load_manifest()
+ 
+     def read_manifest(self):

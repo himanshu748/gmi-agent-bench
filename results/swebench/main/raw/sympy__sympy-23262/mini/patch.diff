@@ -1,0 +1,19 @@
+diff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py
+index da67263b19..ce137b6853 100755
+--- a/sympy/utilities/lambdify.py
++++ b/sympy/utilities/lambdify.py
+@@ -961,7 +961,13 @@ def _recursive_to_string(doprint, arg):
+             left, right = "()"
+         else:
+             raise NotImplementedError("unhandled type: %s, %s" % (type(arg), arg))
+-        return left +', '.join(_recursive_to_string(doprint, e) for e in arg) + right
++        args = ', '.join(_recursive_to_string(doprint, e) for e in arg)
++        # In Python, a tuple with one element needs a trailing comma,
++        # otherwise it is not a tuple but just the element itself
++        # (e.g. ``(1)`` is ``1`` while ``(1,)`` is a 1-tuple).
++        if isinstance(arg, tuple) and len(arg) == 1:
++            args += ','
++        return left + args + right
+     elif isinstance(arg, str):
+         return arg
+     else:

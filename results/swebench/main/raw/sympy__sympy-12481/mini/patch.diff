@@ -1,0 +1,34 @@
+diff --git a/sympy/combinatorics/permutations.py b/sympy/combinatorics/permutations.py
+index 136ed5a47..a018c9756 100755
+--- a/sympy/combinatorics/permutations.py
++++ b/sympy/combinatorics/permutations.py
+@@ -843,6 +843,14 @@ def __new__(cls, *args, **kwargs):
+         Permutation([0, 4, 3, 5, 1, 2], size=10)
+         >>> _.array_form
+         [0, 4, 3, 5, 1, 2, 6, 7, 8, 9]
++
++        The cycles need not be disjoint; if they are not, they are applied
++        in the order given, from left to right:
++
++        >>> Permutation([[0, 1], [0, 2]]).array_form
++        [1, 2, 0]
++        >>> Permutation([[0, 1], [0, 1]]).array_form  # identity
++        [0, 1]
+         """
+         size = kwargs.pop('size', None)
+         if size is not None:
+@@ -895,12 +903,8 @@ def __new__(cls, *args, **kwargs):
+         # counting starts from 1.
+ 
+         temp = flatten(args)
+-        if has_dups(temp):
+-            if is_cycle:
+-                raise ValueError('there were repeated elements; to resolve '
+-                'cycles use Cycle%s.' % ''.join([str(tuple(c)) for c in args]))
+-            else:
+-                raise ValueError('there were repeated elements.')
++        if has_dups(temp) and not is_cycle:
++            raise ValueError('there were repeated elements.')
+         temp = set(temp)
+ 
+         if not is_cycle and \

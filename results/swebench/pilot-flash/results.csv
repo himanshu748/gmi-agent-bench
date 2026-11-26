@@ -1,0 +1,11 @@
+instance_id,order_index,repo,difficulty,agent,ran_first,resolved,eval_status,f2p,p2p,wall_s,timed_out,steps,requests,failed_requests,prompt_tokens,cached_tokens,completion_tokens,cost_usd,patch_lines,agent_status,agent_steps,agent_prompt_tokens,agent_completion_tokens,error,first_api_error
+django__django-11740,0,django/django,15 min - 1 hour,droid,False,True,applied,1/1,109/109,162.65,False,31,31,0,600773,575744,7972,0.012506,5,success,31,600773,7972,,
+django__django-11740,0,django/django,15 min - 1 hour,mini,True,True,applied,1/1,109/109,914.28,False,73,73,0,2014812,1971712,23099,0.038583,10,Submitted,73,2014812,23099,,
+django__django-10880,1,django/django,<15 min fix,droid,True,True,applied,1/1,55/55,29.56,False,5,5,0,50419,39680,1140,0.001686,2,success,5,50419,1140,,
+django__django-10880,1,django/django,<15 min fix,mini,False,True,applied,1/1,55/55,193.06,False,25,25,0,343316,323072,10240,0.008924,2,Submitted,25,343316,10240,,
+sympy__sympy-15809,2,sympy/sympy,<15 min fix,droid,False,True,applied,2/2,10/10,287.91,False,17,17,0,245407,233984,3138,0.005151,5,success,17,245407,3138,,
+sympy__sympy-15809,2,sympy/sympy,<15 min fix,mini,True,True,applied,2/2,10/10,993.54,False,37,37,0,545821,519936,7970,0.011733,14,Submitted,37,545821,7970,,
+django__django-16493,3,django/django,15 min - 1 hour,droid,True,True,applied,1/1,91/91,53.75,False,11,11,0,114035,102144,1882,0.002894,5,success,11,114035,1882,,
+django__django-16493,3,django/django,15 min - 1 hour,mini,False,True,applied,1/1,91/91,106.19,False,16,16,0,96855,88576,4317,0.003029,6,Submitted,16,96855,4317,,
+django__django-14170,4,django/django,15 min - 1 hour,droid,False,True,applied,2/2,76/76,174.35,False,30,30,0,744152,702720,9067,0.015915,38,success,30,744152,9067,,
+django__django-14170,4,django/django,15 min - 1 hour,mini,True,True,applied,2/2,76/76,447.64,False,52,52,0,1350113,1311488,19656,0.027483,43,Submitted,52,1350113,19656,,

@@ -1,0 +1,27 @@
+diff --git a/doc/whats-new.rst b/doc/whats-new.rst
+index c1440ec1..89295b0b 100755
+--- a/doc/whats-new.rst
++++ b/doc/whats-new.rst
+@@ -116,6 +116,9 @@ New Features
+ 
+ Bug fixes
+ ~~~~~~~~~
++- Fixed a bug where :py:meth:`DataArray.to_unstacked_dataset` failed for
++  variables with only a single dimension (:issue:`4049`).
++  By `Deepak Cherian <https://github.com/dcherian>`_.
+ - Fix errors combining attrs in :py:func:`open_mfdataset` (:issue:`4009`, :pull:`4173`)
+   By `John Omotani <https://github.com/johnomotani>`_
+ - If groupby receives a ``DataArray`` with name=None, assign a default name (:issue:`158`)
+diff --git a/xarray/core/dataarray.py b/xarray/core/dataarray.py
+index b0df8749..3be9bb79 100755
+--- a/xarray/core/dataarray.py
++++ b/xarray/core/dataarray.py
+@@ -1961,7 +1961,7 @@ class DataArray(AbstractArray, DataWithCoords):
+         # pull variables out of datarray
+         data_dict = {}
+         for k in variables:
+-            data_dict[k] = self.sel({variable_dim: k}).squeeze(drop=True)
++            data_dict[k] = self.sel({variable_dim: k}, drop=True).squeeze(drop=True)
+ 
+         # unstacked dataset
+         return Dataset(data_dict)

@@ -1,0 +1,12 @@
+{
+  "customModels": [
+    {
+      "model": "zai-org/GLM-5.3-Flash",
+      "displayName": "GLM-5.3 Flash",
+      "baseUrl": "http://127.0.0.1:44663/v1",
+      "apiKey": "via-proxy",
+      "provider": "generic-chat-completion-api",
+      "maxOutputTokens": 16384
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"type":"result","subtype":"failure","is_error":true,"duration_ms":10109,"num_turns":0,"result":"Connection error.","session_id":"d9ea3b18-d2e4-41eb-abb4-3eeff3deb386","usage":{"input_tokens":2172,"output_tokens":128,"cache_read_input_tokens":16640,"cache_creation_input_tokens":0,"factory_credits":0,"thinking_tokens":0,"ttft_ms":2577.3333333333335}}

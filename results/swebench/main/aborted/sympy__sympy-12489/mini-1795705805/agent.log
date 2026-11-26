@@ -1,0 +1,8 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d 
+--name minisweagent-d30d0a8a -w /testbed --rm --network host                    
+docker.io/swebench/sweb.eval.x86_64.sympy_1776_sympy-12489:latest sleep 3h      
+minisweagent.environment: INFO: Started container minisweagent-d30d0a8a with ID 
+a9e6c74fb02d9827376a5ad212537fd0c1e4f456c207ef23ec23cb8ba203ede6                
+/workspace/gmi-agent-bench/.venv/lib/python3.13/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `str` - serialized value may not be as expected [field_name='metadata', input_value=[{'version': 'default', 'start': 0, 'end': 53}], input_type=list])
+  return self.__pydantic_serializer__.to_python(

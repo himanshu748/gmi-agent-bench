@@ -1,0 +1,9 @@
+{
+  "exit_status": "LimitsExceeded",
+  "error": null,
+  "steps": 100,
+  "prompt_tokens": 3469421,
+  "completion_tokens": 24942,
+  "cached_tokens": 3405824,
+  "own_submission_chars": 0
+}

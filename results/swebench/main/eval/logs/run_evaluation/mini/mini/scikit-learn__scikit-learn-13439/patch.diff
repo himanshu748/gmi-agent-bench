@@ -1,0 +1,46 @@
+diff --git a/doc/modules/compose.rst b/doc/modules/compose.rst
+index c7e4afe5f..cd2f4804e 100755
+--- a/doc/modules/compose.rst
++++ b/doc/modules/compose.rst
+@@ -110,6 +110,10 @@ permitted). This is convenient for performing only some of the transformations
+     >>> pipe[-1:] # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+     Pipeline(memory=None, steps=[('clf', SVC(C=1.0, ...))])
+ 
++A pipeline's length (i.e. its number of steps) is available through ``len``,
++so that, for instance, a sub-pipeline containing all of its steps can be
++extracted with ``pipe[:len(pipe)]``.
++
+ Nested parameters
+ .................
+ 
+diff --git a/doc/whats_new/v0.21.rst b/doc/whats_new/v0.21.rst
+index 8787b07d5..2e8c1b66b 100755
+--- a/doc/whats_new/v0.21.rst
++++ b/doc/whats_new/v0.21.rst
+@@ -410,6 +410,11 @@ Support for Python 3.4 and below has been officially dropped.
+   step (e.g. ``my_pipeline['svc']``), rather than accessing ``named_steps``.
+   :issue:`2568` by `Joel Nothman`_.
+ 
++- |Enhancement| :class:`pipeline.Pipeline` now implements ``__len__``, so that
++  the number of steps can be obtained with ``len(my_pipeline)`` (e.g. to slice
++  a pipeline with ``my_pipeline[:len(my_pipeline)]``).
++  :issue:`13546` by :user:`Krisztian Gabal <krisztianb>`.
++
+ - |API| :class:`pipeline.Pipeline` now supports using ``'passthrough'`` as a
+   transformer. :issue:`11144` by :user:`Thomas Fan <thomasjpfan>`.
+ 
+diff --git a/sklearn/pipeline.py b/sklearn/pipeline.py
+index 7eaf9a46f..3a11a8268 100755
+--- a/sklearn/pipeline.py
++++ b/sklearn/pipeline.py
+@@ -219,6 +219,10 @@ class Pipeline(_BaseComposition):
+             return self.named_steps[ind]
+         return est
+ 
++    def __len__(self):
++        """Returns the length of the Pipeline"""
++        return len(self.steps)
++
+     @property
+     def _estimator_type(self):
+         return self.steps[-1][1]._estimator_type

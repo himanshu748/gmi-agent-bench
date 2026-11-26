@@ -1,0 +1,53 @@
+diff --git a/sympy/functions/elementary/miscellaneous.py b/sympy/functions/elementary/miscellaneous.py
+index 5f9fe73c5..8e7fa5d41 100644
+--- a/sympy/functions/elementary/miscellaneous.py
++++ b/sympy/functions/elementary/miscellaneous.py
+@@ -340,7 +340,7 @@ def real_root(arg, n=None, evaluate=None):
+ class MinMaxBase(Expr, LatticeOp):
+     def __new__(cls, *args, **assumptions):
+         if not args:
+-            raise ValueError("The Max/Min functions must have arguments.")
++            args = (cls.identity,)
+ 
+         args = (sympify(arg) for arg in args)
+ 
+@@ -666,6 +666,10 @@ class Max(MinMaxBase, Application):
+     It is named ``Max`` and not ``max`` to avoid conflicts
+     with the built-in function ``max``.
+ 
++    When there are no arguments, ``-oo`` is returned, i.e. the
++    identity element of ``Max`` (this is the maximum of the empty set
++    in the extended real numbers).
++
+ 
+     Examples
+     ========
+@@ -691,6 +695,8 @@ class Max(MinMaxBase, Application):
+     Max(8, p)
+     >>> Max (1, x, oo)
+     oo
++    >>> Max()
++    -oo
+ 
+     * Algorithm
+ 
+@@ -768,6 +774,10 @@ class Min(MinMaxBase, Application):
+     It is named ``Min`` and not ``min`` to avoid conflicts
+     with the built-in function ``min``.
+ 
++    When there are no arguments, ``oo`` is returned, i.e. the
++    identity element of ``Min`` (this is the minimum of the empty set
++    in the extended real numbers).
++
+     Examples
+     ========
+ 
+@@ -786,6 +796,8 @@ class Min(MinMaxBase, Application):
+     Min(x, y)
+     >>> Min(n, 8, p, -7, p, oo)     #doctest: +SKIP
+     Min(n, -7)
++    >>> Min()
++    oo
+ 
+     See Also
+     ========

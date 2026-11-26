@@ -102,3 +102,17 @@ def test_pycache_is_not_a_test_edit(tmp_path):
     (work / "tests" / "__pycache__" / "x.pyc").write_bytes(b"\x00")
     d = diff_stats(work)
     assert not d["edited_tests"] and d["files_changed"] == 0
+
+
+def test_wilson_and_mcnemar():
+    from bench.swe_report import mcnemar_exact, wilson
+    lo, hi = wilson(50, 100)
+    assert 0.40 < lo < 0.41 and 0.59 < hi < 0.60
+    assert wilson(0, 0) == (0.0, 0.0)
+    assert mcnemar_exact(0, 0) == 1.0
+    assert abs(mcnemar_exact(0, 6) - 0.03125) < 1e-9
+
+
+def test_patch_extraction_rule():
+    from bench.swe_common import EXTRACT_PATCH
+    assert "git -c core.fileMode=false diff HEAD" in EXTRACT_PATCH and "repro" in EXTRACT_PATCH

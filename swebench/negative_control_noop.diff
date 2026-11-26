@@ -1,0 +1,9 @@
+diff --git a/django/db/migrations/autodetector.py b/django/db/migrations/autodetector.py
+index 0dc1c77c53..ce66d9654b 100644
+--- a/django/db/migrations/autodetector.py
++++ b/django/db/migrations/autodetector.py
+@@ -1318,3 +1318,4 @@ class MigrationAutodetector:
+         if match:
+             return int(match.group())
+         return None
++# negative control

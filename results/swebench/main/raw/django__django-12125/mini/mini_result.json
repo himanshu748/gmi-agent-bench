@@ -1,0 +1,9 @@
+{
+  "exit_status": "TimeExceeded",
+  "error": null,
+  "steps": 98,
+  "prompt_tokens": 3843003,
+  "completion_tokens": 32787,
+  "cached_tokens": 3775744,
+  "own_submission_chars": 0
+}

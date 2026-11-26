@@ -1,0 +1,9 @@
+{
+  "exit_status": "Submitted",
+  "error": null,
+  "steps": 58,
+  "prompt_tokens": 1506109,
+  "completion_tokens": 12680,
+  "cached_tokens": 1459200,
+  "own_submission_chars": 6148
+}

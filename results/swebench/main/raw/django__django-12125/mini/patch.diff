@@ -1,0 +1,64 @@
+diff --git a/django/db/migrations/serializer.py b/django/db/migrations/serializer.py
+index 7d226955d5..e7011d1bde 100755
+--- a/django/db/migrations/serializer.py
++++ b/django/db/migrations/serializer.py
+@@ -4,6 +4,7 @@ import datetime
+ import decimal
+ import enum
+ import functools
++import importlib
+ import math
+ import re
+ import types
+@@ -88,9 +89,32 @@ class DeconstructableSerializer(BaseSerializer):
+             strings.append("%s=%s" % (kw, arg_string))
+         return "%s(%s)" % (name, ", ".join(strings)), imports
+ 
++    @staticmethod
++    def _get_module_and_name(path):
++        """
++        Return the importable module part of a dotted path and the remainder.
++
++        The path of a class nested in another class (e.g.
++        'app.models.Outer.Inner') includes the names of the enclosing classes,
++        so the module part cannot be determined by splitting the path on its
++        last dot. Instead, the longest prefix of the path that is an
++        importable module is used.
++        """
++        parts = path.split(".")
++        for i in range(len(parts) - 1, 0, -1):
++            module = ".".join(parts[:i])
++            try:
++                importlib.import_module(module)
++            except ImportError:
++                continue
++            return module, ".".join(parts[i:])
++        # Fall back to the last two parts if the module couldn't be determined
++        # (e.g. the path refers to a module that isn't importable).
++        return path.rsplit(".", 1)
++
+     @staticmethod
+     def _serialize_path(path):
+-        module, name = path.rsplit(".", 1)
++        module, name = DeconstructableSerializer._get_module_and_name(path)
+         if module == "django.db.models":
+             imports = {"from django.db import models"}
+             name = "models.%s" % name
+@@ -143,7 +167,7 @@ class FunctionTypeSerializer(BaseSerializer):
+         if getattr(self.value, "__self__", None) and isinstance(self.value.__self__, type):
+             klass = self.value.__self__
+             module = klass.__module__
+-            return "%s.%s.%s" % (module, klass.__name__, self.value.__name__), {"import %s" % module}
++            return "%s.%s.%s" % (module, klass.__qualname__, self.value.__name__), {"import %s" % module}
+         # Further error checking
+         if self.value.__name__ == '<lambda>':
+             raise ValueError("Cannot serialize function: lambda")
+@@ -269,7 +293,7 @@ class TypeSerializer(BaseSerializer):
+             if module == builtins.__name__:
+                 return self.value.__name__, set()
+             else:
+-                return "%s.%s" % (module, self.value.__name__), {"import %s" % module}
++                return "%s.%s" % (module, self.value.__qualname__), {"import %s" % module}
+ 
+ 
+ class UUIDSerializer(BaseSerializer):

@@ -1,0 +1,38 @@
+diff --git a/changelog/7569.bugfix.rst b/changelog/7569.bugfix.rst
+new file mode 100644
+index 000000000..5dd38bc4d
+--- /dev/null
++++ b/changelog/7569.bugfix.rst
+@@ -0,0 +1 @@
++Fix logging capture handler's level not reset on teardown after a call to ``caplog.set_level()``.
+diff --git a/src/_pytest/logging.py b/src/_pytest/logging.py
+index 11031f2f2..5851321e6 100644
+--- a/src/_pytest/logging.py
++++ b/src/_pytest/logging.py
+@@ -344,6 +344,7 @@ class LogCaptureFixture:
+     def __init__(self, item: nodes.Node) -> None:
+         """Creates a new funcarg."""
+         self._item = item
++        self._initial_handler_level = None  # type: Optional[int]
+         # dict of log name -> log level
+         self._initial_logger_levels = {}  # type: Dict[Optional[str], int]
+ 
+@@ -352,6 +353,9 @@ class LogCaptureFixture:
+ 
+         This restores the log levels changed by :meth:`set_level`.
+         """
++        # restore the handler level changed by :meth:`set_level`
++        if self._initial_handler_level is not None:
++            self.handler.setLevel(self._initial_handler_level)
+         # restore log levels
+         for logger_name, level in self._initial_logger_levels.items():
+             logger = logging.getLogger(logger_name)
+@@ -434,6 +438,8 @@ class LogCaptureFixture:
+         # save the original log-level to restore it during teardown
+         self._initial_logger_levels.setdefault(logger, logger_obj.level)
+         logger_obj.setLevel(level)
++        if self._initial_handler_level is None:
++            self._initial_handler_level = self.handler.level
+         self.handler.setLevel(level)
+ 
+     @contextmanager

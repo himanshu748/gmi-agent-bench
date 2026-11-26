@@ -1,0 +1,50 @@
+diff --git a/CHANGES.rst b/CHANGES.rst
+index aea009f09..932b777a5 100644
+--- a/CHANGES.rst
++++ b/CHANGES.rst
+@@ -334,6 +334,10 @@ astropy.time
+ astropy.units
+ ^^^^^^^^^^^^^
+ 
++- ``astropy.units.quantity_input`` no longer fails when used on functions
++  (e.g., ``__init__``) that have a ``None`` return annotation and return
++  nothing. [#7493]
++
+ astropy.utils
+ ^^^^^^^^^^^^^
+ 
+diff --git a/astropy/units/decorators.py b/astropy/units/decorators.py
+index 8bece5a85..add436ffd 100644
+--- a/astropy/units/decorators.py
++++ b/astropy/units/decorators.py
+@@ -134,6 +134,17 @@ class QuantityInput:
+             def myfunction(myangle: u.arcsec) -> u.deg**2:
+                 return myangle**2
+ 
++        If the function returns nothing, i.e., the return annotation is
++        `None` (as is the case for, e.g., ``__init__``), the returned value
++        is passed through unchanged.
++
++        .. code-block:: python
++
++            import astropy.units as u
++            @u.quantity_input
++            def myfunction(myangle: u.arcsec) -> None:
++                pass
++
+         Using equivalencies::
+ 
+             import astropy.units as u
+@@ -221,6 +232,12 @@ class QuantityInput:
+             with add_enabled_equivalencies(self.equivalencies):
+                 return_ = wrapped_function(*func_args, **func_kwargs)
+             if wrapped_signature.return_annotation is not inspect.Signature.empty:
++                # If the function returns nothing (i.e., the return annotation
++                # is ``None``, as is the case, e.g., for ``__init__``), or if
++                # it actually returned ``None``, there is no unit to convert
++                # the result to, so simply pass the value through.
++                if return_ is None or wrapped_signature.return_annotation is None:
++                    return return_
+                 return return_.to(wrapped_signature.return_annotation)
+             else:
+                 return return_

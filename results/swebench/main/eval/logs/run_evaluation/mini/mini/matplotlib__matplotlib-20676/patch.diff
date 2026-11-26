@@ -1,0 +1,21 @@
+diff --git a/lib/matplotlib/widgets.py b/lib/matplotlib/widgets.py
+index a199e45d4..f24547121 100644
+--- a/lib/matplotlib/widgets.py
++++ b/lib/matplotlib/widgets.py
+@@ -2156,7 +2156,15 @@ class SpanSelector(_SelectorWidget):
+             self.artists.append(self._rect)
+ 
+     def _setup_edge_handle(self, props):
+-        self._edge_handles = ToolLineHandles(self.ax, self.extents,
++        # Define the initial position of the handles using the axis bounds
++        # instead of the selector extents (which are (0, 0) before the first
++        # selection), so that creating the handles does not modify the axes
++        # limits, e.g. it does not force them to include 0.
++        if self.direction == 'horizontal':
++            positions = self.ax.get_xbound()
++        else:
++            positions = self.ax.get_ybound()
++        self._edge_handles = ToolLineHandles(self.ax, positions,
+                                              direction=self.direction,
+                                              line_props=props,
+                                              useblit=self.useblit)

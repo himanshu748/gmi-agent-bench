@@ -1,0 +1,22 @@
+diff --git a/sympy/printing/pycode.py b/sympy/printing/pycode.py
+index d06901425..dfee5b824 100644
+--- a/sympy/printing/pycode.py
++++ b/sympy/printing/pycode.py
+@@ -322,6 +322,17 @@ class MpmathPrinter(PythonCodePrinter):
+         [(k, 'mpmath.' + v) for k, v in _known_functions_mpmath.items()]
+     ))
+ 
++    def _print_Rational(self, e):
++        # A CodePrinter normally prints rationals as e.g. 232/3 which Python
++        # would evaluate to a float, losing precision.  For mpmath we keep
++        # the numerator and denominator exact and let the division be carried
++        # out at the caller's precision.
++        return '{0}({1})/{0}({2})'.format(
++            self._module_format('mpmath.mpf'),
++            e.p,
++            e.q
++        )
++
+     def _print_Float(self, e):
+         # XXX: This does not handle setting mpmath.mp.dps. It is assumed that
+         # the caller of the lambdified function will have set it to sufficient

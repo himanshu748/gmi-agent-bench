@@ -1,0 +1,17 @@
+{
+  "model": "zai-org/GLM-5.3-Flash",
+  "display_name": "GLM-5.3 Flash",
+  "prices_per_M": [
+    0.075,
+    0.015,
+    0.25
+  ],
+  "n": 100,
+  "skip": 0,
+  "workers": 10,
+  "wall_s": 1200,
+  "mini_step_limit": 100,
+  "budget_usd": 20.0,
+  "dataset": "SWE-bench/SWE-bench_Verified",
+  "instances_file": "swebench/instances.txt"
+}

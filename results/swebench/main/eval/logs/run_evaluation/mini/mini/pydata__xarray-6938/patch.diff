@@ -1,0 +1,38 @@
+diff --git a/doc/whats-new.rst b/doc/whats-new.rst
+index 6d78a47f..c0f226b2 100644
+--- a/doc/whats-new.rst
++++ b/doc/whats-new.rst
+@@ -49,6 +49,8 @@ Bug fixes
+ - Make FacetGrid.set_titles send kwargs correctly using `handle.udpate(kwargs)`.
+   (:issue:`6839`, :pull:`6843`)
+   By `Oliver Lopez <https://github.com/lopezvoliver>`_.
++- Fix bug where index variables would be changed inplace (:issue:`6931`, :pull:`6938`)
++  By `Michael Niklas <https://github.com/headtr1ck>`_.
+ 
+ Documentation
+ ~~~~~~~~~~~~~
+diff --git a/xarray/core/dataset.py b/xarray/core/dataset.py
+index c775d05c..c3717190 100644
+--- a/xarray/core/dataset.py
++++ b/xarray/core/dataset.py
+@@ -3771,6 +3771,7 @@ class Dataset(
+         indexes: dict[Hashable, Index] = {}
+         for k, v in self.variables.items():
+             dims = tuple(dims_dict.get(dim, dim) for dim in v.dims)
++            var: Variable
+             if k in result_dims:
+                 var = v.to_index_variable()
+                 var.dims = dims
+diff --git a/xarray/core/variable.py b/xarray/core/variable.py
+index 5827b90a..d03654e9 100644
+--- a/xarray/core/variable.py
++++ b/xarray/core/variable.py
+@@ -2881,7 +2881,7 @@ class IndexVariable(Variable):
+ 
+     def to_index_variable(self):
+         """Return this variable as an xarray.IndexVariable"""
+-        return self
++        return self.copy(deep=False)
+ 
+     to_coord = utils.alias(to_index_variable, "to_coord")
+ 
