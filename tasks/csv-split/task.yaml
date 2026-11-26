@@ -1,0 +1,3 @@
+id: csv-split
+title: split_csv_line breaks on quoted commas
+module: csvline.py

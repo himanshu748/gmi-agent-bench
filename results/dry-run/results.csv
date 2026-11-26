@@ -1,0 +1,13 @@
+agent,task,run,resolved,tests_passed,tests_total,wall_s,timed_out,steps,requests,failed_requests,prompt_tokens,cached_tokens,completion_tokens,cost_usd,agent_steps,agent_prompt_tokens,agent_completion_tokens,lines_added,lines_removed,files_changed,edited_tests,agent_status,exit_code,error
+droid,csv-split,1,True,11,11,2.78,False,2,2,0,21840,0,80,0.001658,2,21840,80,25,1,1,False,success,0,
+mini,csv-split,1,True,11,11,6.03,False,2,2,0,2588,0,80,0.000214,2,2588,80,25,1,1,False,Submitted,0,
+droid,deep-merge,1,True,8,8,2.23,False,2,2,0,21761,0,80,0.001652,2,21761,80,9,2,1,False,success,0,
+mini,deep-merge,1,True,8,8,3.37,False,2,2,0,2508,0,80,0.000208,2,2508,80,9,2,1,False,Submitted,0,
+droid,lru-cache,1,True,9,9,2.12,False,2,2,0,21807,0,80,0.001656,2,21807,80,18,7,1,False,success,0,
+mini,lru-cache,1,True,9,9,3.48,False,2,2,0,2556,0,80,0.000212,2,2556,80,18,7,1,False,Submitted,0,
+droid,merge-intervals,1,True,11,11,1.77,False,2,2,0,21757,0,80,0.001652,2,21757,80,9,3,1,False,success,0,
+mini,merge-intervals,1,True,11,11,3.07,False,2,2,0,2494,0,80,0.000207,2,2494,80,9,3,1,False,Submitted,0,
+droid,parse-duration,1,True,20,20,1.87,False,2,2,0,21834,0,80,0.001658,2,21834,80,14,3,1,False,success,0,
+mini,parse-duration,1,True,20,20,3.12,False,2,2,0,2573,0,80,0.000213,2,2573,80,14,3,1,False,Submitted,0,
+droid,semver-compare,1,True,19,19,2.62,False,2,2,0,21977,0,80,0.001668,2,21977,80,30,9,1,False,success,0,
+mini,semver-compare,1,True,19,19,3.22,False,2,2,0,2717,0,80,0.000224,2,2717,80,30,9,1,False,Submitted,0,

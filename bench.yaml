@@ -1,0 +1,37 @@
+# gmi-agent-bench configuration.
+# One model, two agents, same prompt, same tasks, same limits.
+
+provider:
+  name: GMI Cloud
+  base_url: https://api.gmi-serving.com/v1   # OpenAI-compatible (docs.gmicloud.ai)
+  api_key_env: GMI_API_KEY
+
+model:
+  id: zai-org/GLM-5.3-Flash
+  display_name: GLM-5.3 Flash
+  max_output_tokens: 16384
+  # USD per 1M tokens. Read 2026-11-26 from public GMI price listings
+  # (models.litellm.ai/providers/gmi, appndo.com/models/providers/gmi).
+  # Confirm on console.gmicloud.ai before publishing a cost column.
+  input_usd_per_million: 0.075
+  cached_input_usd_per_million: 0.015
+  output_usd_per_million: 0.25
+
+limits:
+  runs_per_task: 2          # agents are not deterministic; >=2 is the minimum honest number
+  wall_seconds: 600         # hard kill per agent run (process group)
+  mini_step_limit: 40       # mini-swe-agent model-call cap
+  test_timeout_seconds: 120
+
+agents:
+  mini:
+    enabled: true
+    config: mini.yaml       # mini-swe-agent built-in config (DefaultAgent + LitellmModel, bash tool)
+  droid:
+    enabled: true
+    bin: droid
+    autonomy: medium        # droid exec --auto medium (edits + local commands); no --skip-permissions-unsafe
+    isolate_home: true      # fresh HOME so only this run's custom model is loaded
+
+# Tasks live in tasks/<id>/. Empty list = all.
+tasks: []

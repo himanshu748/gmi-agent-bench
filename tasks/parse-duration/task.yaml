@@ -1,0 +1,3 @@
+id: parse-duration
+title: parse_duration only understands "XhYm"
+module: duration.py

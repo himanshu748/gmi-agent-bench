@@ -1,0 +1,3 @@
+id: lru-cache
+title: LRUCache evicts the wrong key
+module: lru.py

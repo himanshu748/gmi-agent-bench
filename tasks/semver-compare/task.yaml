@@ -1,0 +1,3 @@
+id: semver-compare
+title: Version comparison sorts 1.10.0 before 1.9.0 and ignores pre-releases
+module: semver.py

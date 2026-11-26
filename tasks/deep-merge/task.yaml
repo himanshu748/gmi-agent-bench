@@ -1,0 +1,3 @@
+id: deep-merge
+title: deep_merge overwrites nested dicts and mutates its input
+module: merge.py
