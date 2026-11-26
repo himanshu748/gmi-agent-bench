@@ -5,3 +5,4 @@ __pycache__/
 results/*/work/
 results/*/raw/**/home/
 .pytest_cache/
+results/**/home/
